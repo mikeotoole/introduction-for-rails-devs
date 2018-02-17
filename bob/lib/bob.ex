@@ -9,8 +9,31 @@ defmodule Bob do
   """
   def hey(input) do
     cond do
-      true ->
-        raise "not implemented yet"
+      nothing?(input) -> "Fine. Be that way!"
+      shouting_question?(input) -> "Calm down, I know what I'm doing!"
+      question?(input) -> "Sure."
+      yelling?(input) -> "Whoa, chill out!"
+      true -> "Whatever."
+    end
+  end
+
+  defp shouting_question?(input) do
+    question?(input) && yelling?(input)
+  end
+
+  defp nothing?(input) do
+    String.trim(input) == ""
+  end
+
+  defp question?(input) do
+    String.ends_with?(input, "?")
+  end
+
+  defp yelling?(input) do
+    cond do
+      String.replace(input, ~r/[0-9, \?]+/, "") == "" -> false
+      input == String.upcase(input) -> true
+      true -> false
     end
   end
 end
